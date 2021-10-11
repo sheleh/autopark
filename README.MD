@@ -12,6 +12,10 @@ GET /employees/?last_name=
 filtering employees by email
 GET /employees/?email=
 
+# Task 5
+getting company information 
+GET /company_view/ (authentication required)
+
 ________________________________
 
 Get a list of existing users

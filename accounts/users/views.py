@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
     filter_backends = [DjangoFilterBackend]
     filterset_class = EmployeeFilter
 

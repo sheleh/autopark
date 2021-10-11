@@ -17,15 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from accounts.users.views import UserViewSet, EmployeeViewSet
-from accounts.companies.views import CompanyViewSet
+from accounts.companies.views import CompanyEditViewSet, CompanyView
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'companies', CompanyViewSet)
 router.register(r'employees', EmployeeViewSet, basename='employees')
+router.register(r'company_view', CompanyView, basename='company_view')
+# router.register(r'company_edit', CompanyEditViewSet, basename='company_edit')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('company_edit/', CompanyEditViewSet.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
