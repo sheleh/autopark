@@ -20,3 +20,26 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['url', 'email', 'first_name', 'last_name', 'is_company_admin',
                   'password', 'company']
 
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        owner_data = self.context.get('owner_data')
+        employee = Account.objects.create(**validated_data, owner=owner_data.id, company_id=owner_data.company.pk)
+        employee.set_password(validated_data['password'])
+        employee.save()
+        return employee
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.password = validated_data.get('password', instance.password)
+        instance.set_password(instance.password)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Account
+        fields = ['id', 'email', 'first_name', 'last_name', 'password']
+
+

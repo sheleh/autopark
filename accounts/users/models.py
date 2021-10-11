@@ -11,8 +11,8 @@ class Account(AbstractBaseUser):
     last_name = models.CharField(max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     is_company_admin = models.BooleanField(default=True)
-    active = models.BooleanField(default=True)
-    #owner = models.IntegerField(default=None)
+    #active = models.BooleanField(default=True)
+    owner = models.IntegerField(null=True, blank=True)
 
     objects = UserManager()
 

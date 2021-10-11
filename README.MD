@@ -1,5 +1,19 @@
 API Information
 
+getting list of employees
+GET /employees/ (authentication required)
+
+filtering employees by first name
+GET /employees/?first_name=
+
+filtering employees by last name
+GET /employees/?last_name=
+
+filtering employees by email
+GET /employees/?email=
+
+________________________________
+
 Get a list of existing users
 GET http://127.0.0.1:8000/api/all_users
 

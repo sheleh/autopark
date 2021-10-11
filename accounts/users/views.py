@@ -1,7 +1,9 @@
 from . models import Account
 from rest_framework import viewsets
 from rest_framework import permissions
-from . serializers import UserSerializer
+from . serializers import UserSerializer, EmployeeSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from . services import EmployeeFilter
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -14,5 +16,21 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    pass
+    serializer_class = EmployeeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = EmployeeFilter
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return Account.objects.filter(owner=current_user.id)
+
+    def get_serializer_context(self):
+        """sending authenticated user data to serializer"""
+        context = super(EmployeeViewSet, self).get_serializer_context()
+        context["owner_data"] = self.request.user
+        return context
+
+
+
 
