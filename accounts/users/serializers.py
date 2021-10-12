@@ -27,6 +27,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
         owner_data = self.context.get('owner_data')
         employee = Account.objects.create(**validated_data, owner=owner_data.id, company_id=owner_data.company.pk)
         employee.set_password(validated_data['password'])
+        employee.is_staff = False
         employee.save()
         return employee
 

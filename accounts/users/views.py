@@ -32,5 +32,15 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         return context
 
 
+class ProfileEdit(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = EmployeeSerializer
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return Account.objects.filter(pk=current_user.id)
+    pass
+
+
 
 

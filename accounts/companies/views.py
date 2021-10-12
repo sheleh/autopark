@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from . serializers import CompanySerializer
 from rest_framework import generics
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 
@@ -16,9 +17,11 @@ class CompanyEditViewSet(generics.UpdateAPIView):
     lookup_field = 'pk'
 
     def get_object(self):
+        """Returns an object instance that should be used for detail views"""
         current_user = self.request.user
-        objects = self.get_queryset()
-        return get_object_or_404(objects, pk=current_user.company.id)
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset, pk=current_user.company.id)
+        return obj
 
 
 class CompanyView(viewsets.ReadOnlyModelViewSet):

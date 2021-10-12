@@ -16,6 +16,13 @@ GET /employees/?email=
 getting company information 
 GET /company_view/ (authentication required)
 
+#Task 6
+company edit
+PUT /company_edit/ (authentication required)
+Params:
+name=### (required field)
+address=###
+
 ________________________________
 
 Get a list of existing users

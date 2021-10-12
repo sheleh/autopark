@@ -8,11 +8,7 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'address']
 
     def update(self, instance, validated_data):
-        print(instance.name)
-        instance.name = validated_data['name']
-        print(validated_data['name'])
-        instance.address = validated_data['address']
+        instance.name = validated_data.get('name', instance.name)
+        instance.address = validated_data.get('address', instance.address)
         return super().update(instance, validated_data)
-
-
 
