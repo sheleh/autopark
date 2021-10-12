@@ -44,3 +44,22 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'first_name', 'last_name', 'password']
 
 
+class ProfileViewEditSerializer(serializers.ModelSerializer):
+
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        if validated_data.get('password') is not None:
+            instance.password = validated_data.pop('password')
+            instance.set_password(instance.password)
+            instance.save()
+        return super().update(instance, validated_data)
+
+    class Meta:
+        model = Account
+        fields = ['email', 'first_name', 'last_name', 'password']
+
+
+
+

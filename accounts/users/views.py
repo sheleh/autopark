@@ -1,9 +1,11 @@
 from . models import Account
 from rest_framework import viewsets
 from rest_framework import permissions
-from . serializers import UserSerializer, EmployeeSerializer
+from . serializers import UserSerializer, EmployeeSerializer, ProfileViewEditSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from . services import EmployeeFilter
+from rest_framework import generics
+from django.shortcuts import get_object_or_404
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,6 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
+    """Create View and edit worker information"""
     serializer_class = EmployeeSerializer
     permission_classes = [permissions.IsAdminUser]
     filter_backends = [DjangoFilterBackend]
@@ -32,14 +35,20 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         return context
 
 
-class ProfileEdit(viewsets.ModelViewSet):
+class ProfileEdit(generics.RetrieveUpdateAPIView):
+    """View and edit self information"""
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = EmployeeSerializer
+    serializer_class = ProfileViewEditSerializer
+    queryset = Account.objects.all()
+    lookup_field = 'pk'
 
-    def get_queryset(self):
+    def get_object(self):
         current_user = self.request.user
-        return Account.objects.filter(pk=current_user.id)
-    pass
+        queryset = self.get_queryset()
+        obj = get_object_or_404(queryset, pk=current_user.id)
+        return obj
+
+
 
 
 

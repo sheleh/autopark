@@ -16,12 +16,22 @@ GET /employees/?email=
 getting company information 
 GET /company_view/ (authentication required)
 
-#Task 6
+# Task 6
 company edit
-PUT /company_edit/ (authentication required)
-Params:
-name=### (required field)
-address=###
+PATCH /company_edit/ (authentication required)
+Params: 'name', 'address'
+
+# Task 7
+- profile edit -
+get profile information
+GET /profile_edit/ (authentication required)
+
+update profile information
+PATCH /profile_edit/
+Params: 'email', 'first_name', 'last_name', 'password'
+
+
+
 
 ________________________________
 
