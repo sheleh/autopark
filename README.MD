@@ -30,6 +30,36 @@ update profile information
 PATCH /profile_edit/
 Params: 'email', 'first_name', 'last_name', 'password'
 
+# Task 8
+- create office & view list of offices & filtering -
+
+create office 
+POST /office/ (authentication required)
+params: 'name','address','country','city','region'
+
+get list of offices 
+GET /office/ (authentication required)
+
+filtering offices by country
+GET /office/?country= (authentication required)
+
+filtering offices by city
+GET /office/?city= (authentication required)
+
+# Task 9
+- Office retrieve/update/delete -
+
+get office
+GET /office_edit/?/ (authentication required)
+
+update office
+PUT or PATCH /office_edit/?/
+params: 'name', 'address', 'country', 'city', 'region' (authentication required)
+
+delete office
+DELETE /office_edit/?/ (authentication required)
+
+
 
 
 
