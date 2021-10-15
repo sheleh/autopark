@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Office
 from .services import OfficeFilter
-from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404, get_list_or_404
+from rest_framework.exceptions import ValidationError
 
 
 class CreateOfficeView(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin):
@@ -44,5 +46,21 @@ class EditOffice(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
         current_company = self.request.user.company
         queryset = Office.objects.filter(company=current_company.id)
         return queryset
+
+
+class ViewOffice(viewsets.ReadOnlyModelViewSet):
+    """View office Details"""
+    permissions = [permissions.IsAuthenticated, ]
+    serializer_class = OfficeSerializer
+
+    def get_queryset(self):
+        current_user = self.request.user
+        if current_user.office is None:
+            raise ValidationError({'Message': 'current user not assigned to any office'})
+        else:
+            office_obj = Office.objects.filter(pk=current_user.office.id)
+            return office_obj
+
+
 
 

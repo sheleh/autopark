@@ -50,14 +50,22 @@ GET /office/?city= (authentication required)
 - Office retrieve/update/delete -
 
 get office
-GET /office_edit/?/ (authentication required)
+GET /office_edit/{office id}/ (authentication required)
 
 update office
-PUT or PATCH /office_edit/?/
+PUT or PATCH /office_edit/{office id}/
 params: 'name', 'address', 'country', 'city', 'region' (authentication required)
 
 delete office
-DELETE /office_edit/?/ (authentication required)
+DELETE /office_edit/{office id}/ (authentication required)
+
+# Task 10
+Implemented in Task 4 "Worker view/update/delete"
+
+# Task 11
+View my office
+GET /office_view/
+
 
 
 

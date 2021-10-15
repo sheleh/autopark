@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 from accounts.users.views import UserViewSet, EmployeeViewSet, ProfileEdit
 from accounts.companies.views import CompanyEditViewSet, CompanyView
-from offices.views import CreateOfficeView, EditOffice
+from offices.views import CreateOfficeView, EditOffice, ViewOffice
 from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
@@ -27,6 +27,7 @@ router.register(r'employees', EmployeeViewSet, basename='employees')
 router.register(r'company_view', CompanyView, basename='company_view')
 router.register(r'office', CreateOfficeView, basename='office')
 router.register(r'office_edit', EditOffice, basename='office_edit')
+router.register('office_view', ViewOffice, basename='office_view')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

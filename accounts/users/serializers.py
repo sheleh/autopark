@@ -1,7 +1,9 @@
 from . models import Account
-from rest_framework import serializers
+from rest_framework import serializers, status
 from accounts.companies.serializers import CompanySerializer
 from accounts.companies.models import Company
+from offices.serializers import OfficeSerializer
+from rest_framework.response import Response
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,7 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
-
     def create(self, validated_data):
         owner_data = self.context.get('owner_data')
         employee = Account.objects.create(**validated_data, owner=owner_data.id, company_id=owner_data.company.pk)
@@ -35,13 +36,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.password = validated_data.get('password', instance.password)
+        office = validated_data.get('office', instance.office)
+        # token always changes when data updates
         instance.set_password(instance.password)
-        instance.save()
-        return instance
+        if office.company == instance.company:
+            instance.office = office
+            instance.save()
+            return instance
+        else:
+            raise serializers.ValidationError('Wrong office id, please choose another')
 
     class Meta:
         model = Account
-        fields = ['id', 'email', 'first_name', 'last_name', 'password']
+        fields = ['id', 'email', 'first_name', 'last_name', 'password', 'office']
 
 
 class ProfileViewEditSerializer(serializers.ModelSerializer):
