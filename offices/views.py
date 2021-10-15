@@ -1,11 +1,9 @@
 from rest_framework import viewsets, status, permissions, mixins
 from .serializers import OfficeSerializer
-from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Office
 from .services import OfficeFilter
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.exceptions import ValidationError
 
 

@@ -1,9 +1,7 @@
 from . models import Account
-from rest_framework import serializers, status
+from rest_framework import serializers
 from accounts.companies.serializers import CompanySerializer
 from accounts.companies.models import Company
-from offices.serializers import OfficeSerializer
-from rest_framework.response import Response
 
 
 class UserSerializer(serializers.ModelSerializer):

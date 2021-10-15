@@ -19,6 +19,7 @@ from rest_framework import routers
 from accounts.users.views import UserViewSet, EmployeeViewSet, ProfileEdit
 from accounts.companies.views import CompanyEditViewSet, CompanyView
 from offices.views import CreateOfficeView, EditOffice, ViewOffice
+from vehicles.views import ListCreateVehicle
 from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
@@ -28,6 +29,7 @@ router.register(r'company_view', CompanyView, basename='company_view')
 router.register(r'office', CreateOfficeView, basename='office')
 router.register(r'office_edit', EditOffice, basename='office_edit')
 router.register('office_view', ViewOffice, basename='office_view')
+router.register('vehicle_create_view_list', ListCreateVehicle, basename='vehicle_create_view_list')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
