@@ -3,7 +3,7 @@ from . models import Office
 
 
 class OfficeFilter(filters.FilterSet):
-    """" Filter by country , city """
+    """ Filter by country , city """
     class Meta:
         model = Office
         fields = ['country', 'city']

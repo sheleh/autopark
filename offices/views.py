@@ -59,6 +59,3 @@ class ViewOffice(viewsets.ReadOnlyModelViewSet):
             office_obj = Office.objects.filter(pk=current_user.office.id)
             return office_obj
 
-
-
-

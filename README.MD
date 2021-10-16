@@ -66,6 +66,11 @@ Implemented in Task 4 "Worker view/update/delete"
 View my office
 GET /office_view/
 
+# Task 12
+Vehicle list/create
+
+Get list of company vehicle
+GET /vehicle_create_view_list/
 
 
 
