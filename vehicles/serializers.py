@@ -10,7 +10,7 @@ from offices.models import Office
 class VehicleSerializer(serializers.ModelSerializer):
     year_of_manufacture = serializers.IntegerField(validators=[MaxValueValidator(int(date.today().year))])
     #driver = serializers.StringRelatedField(read_only=True)
-    driver = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field='email')
+    driver = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field='first_name')
     office = serializers.SlugRelatedField(queryset=Office.objects.all(), slug_field='name')
 
     def create(self, validated_data):

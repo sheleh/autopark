@@ -18,12 +18,12 @@ class ListCreateVehicle(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins
         current_user_company = self.request.user.company.id
         return Vehicle.objects.filter(company=current_user_company)
 
-    def list(self, request, *args, **kwargs):
-        current_user_company = self.request.user.company.id
-        #queryset = get_list_or_404(Vehicle, company=current_user_company)
-        queryset = Vehicle.objects.filter(company=current_user_company)
-        serializer = VehicleSerializer(queryset, many=True)
-        return Response(serializer.data)
+    #def list(self, request, *args, **kwargs):
+    #    current_user_company = self.request.user.company.id
+    #    #queryset = get_list_or_404(Vehicle, company=current_user_company)
+    #    queryset = Vehicle.objects.filter(company=current_user_company)
+    #    serializer = VehicleSerializer(queryset, many=True)
+    #    return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         company_id = self.request.user.company.id

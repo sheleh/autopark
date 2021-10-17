@@ -4,19 +4,52 @@ from accounts.companies.serializers import CompanySerializer
 from accounts.companies.models import Company
 
 
+class AdminUserCompanyRegistrationSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    is_staff = serializers.BooleanField(default=True)
+    password = serializers.CharField(required=True)
+    password_repeat = serializers.CharField(required=True)
+
+    def validate(self, data):
+        if data.get('password') != data.get('password_repeat'):
+            raise serializers.ValidationError('Those passwords dont match')
+        return data
+
+
 class UserSerializer(serializers.ModelSerializer):
+    """Company Administrator Serializer"""
+    #password_repeat = serializers.SerializerMethodField('get_password_confirmation')
     company = CompanySerializer()
 
+    #def get_password_confirmation(self, password_repeat):
+    #    print(password_repeat)
+    #    print(self.context)
+
     def create(self, validated_data):
+        #print(validated_data)
         company_data = validated_data.pop('company')
+        #print(company_data)
         company = Company.objects.create(**company_data)
         user = Account.objects.create(**validated_data, company_id=company.pk)
         user.set_password(validated_data['password'])
         user.save()
         return user
 
+    #def password_validation(self, validated_data):
+    #    password = validated_data['password']
+    #    password_confirmation = validated_data['repeat password']
+    #    if password != password_confirmation:
+    #        raise serializers.ValidationError('Passwords is not a same , please try again')
+
+    #def get_password_confirmation(self, obj):
+    #    print(self.context)
+    #    print(obj)
+
     class Meta:
         model = Account
+        #repeat_password = serializers.CharField(write_only=True, allow_blank=False)
         fields = ['url', 'email', 'first_name', 'last_name', 'is_staff',
                   'password', 'company']
 

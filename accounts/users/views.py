@@ -1,24 +1,34 @@
 from . models import Account
 from rest_framework import viewsets
 from rest_framework import permissions
-from . serializers import UserSerializer, EmployeeSerializer, ProfileViewEditSerializer
+from . serializers import UserSerializer, EmployeeSerializer, ProfileViewEditSerializer, AdminUserCompanyRegistrationSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from . services import EmployeeFilter
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-        API endpoint that allows users to be viewed or edited.
-    """
+    """Create Company Administrator and Company"""
     queryset = Account.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
+    http_method_names = ['POST']
+
+    def create(self, request, *args, **kwargs):
+        serializer = AdminUserCompanyRegistrationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    """Create View and edit worker information"""
+    """Create, View , Edit worker information"""
     serializer_class = EmployeeSerializer
     permission_classes = [permissions.IsAdminUser]
     filter_backends = [DjangoFilterBackend]

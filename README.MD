@@ -1,4 +1,22 @@
 API Information
+# Task 1
+- Registration of user and company -
+
+POST /users/
+example:
+{
+    "email": "_", (required field)
+    "first_name": "_", (required field)
+    "last_name": "_", (required field)
+    "password": "_", (required field)
+    "password_repeat":"_", (required field)
+    "company": {
+        "name": "_", (required field)
+        "address": ""
+    }
+}
+
+
 
 getting list of employees
 GET /employees/ (authentication required)
@@ -71,6 +89,12 @@ Vehicle list/create
 
 Get list of company vehicle
 GET /vehicle_create_view_list/
+
+filtering vehicles by driver name
+GET /vehicle_create_view_list/?driver={driver name} (authentication required)
+
+filtering offices by office name
+GET /vehicle_create_view_list/?office={office name} (authentication required)
 
 
 

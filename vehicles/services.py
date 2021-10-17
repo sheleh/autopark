@@ -6,12 +6,11 @@ from offices.models import Office
 
 
 class VehicleFilter(django_filters.rest_framework.FilterSet):
-    #driver = django_filters.ModelChoiceFilter(queryset=Account.objects.all())
-    #print(driver.__str__())
-    #office = django_filters.CharFilter(field_name='office__name', lookup_expr='iexact')
-
+    """ Filter by driver first name , office name """
+    office = django_filters.CharFilter(field_name='office__name')
+    driver = django_filters.CharFilter(field_name='driver__first_name')
 
     class Meta:
         model = Vehicle
-        fields = ['name']
+        fields = ['driver', 'office']
 

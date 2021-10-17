@@ -12,14 +12,18 @@ class CreateOfficeView(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.
     serializer_class = OfficeSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = Office.objects.all()
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend,]
     filterset_class = OfficeFilter
 
-    def list(self, request, *args, **kwargs):
-        """Provide view current company offices only"""
-        queryset = Office.objects.filter(company=self.request.user.company.id)
-        serializer = OfficeSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        current_company = self.request.user.company.id
+        return Office.objects.filter(company=current_company)
+
+    #def list(self, request, *args, **kwargs):
+    #    """Provide view current company offices only"""
+    #    queryset = Office.objects.filter(company=self.request.user.company.id)
+    #    serializer = OfficeSerializer(queryset, many=True)
+    #   return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         if not self.request.user.is_staff:
