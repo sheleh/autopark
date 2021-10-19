@@ -12,30 +12,32 @@ class CreateOfficeView(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.
     serializer_class = OfficeSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = Office.objects.all()
-    filter_backends = [DjangoFilterBackend,]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = OfficeFilter
 
-    def get_queryset(self):
-        current_company = self.request.user.company.id
-        return Office.objects.filter(company=current_company)
+    #def get_queryset(self):
+    #    current_company = self.request.user.company.id
+    #    return Office.objects.filter(company=current_company)
 
-    #def list(self, request, *args, **kwargs):
-    #    """Provide view current company offices only"""
-    #    queryset = Office.objects.filter(company=self.request.user.company.id)
-    #    serializer = OfficeSerializer(queryset, many=True)
-    #   return Response(serializer.data)
+    def list(self, request, *args, **kwargs):
+        """Provide view current company offices only"""
+        queryset = self.filter_queryset(self.get_queryset().filter(company=self.request.user.company.id))
+        serializer = OfficeSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         if not self.request.user.is_staff:
             return Response(status=status.HTTP_403_FORBIDDEN)
         else:
-            user_data = self.request.user
-            serializer = OfficeSerializer(context=user_data, data=request.data)
+            current_user_company = self.request.user.company
+            serializer = OfficeSerializer(context=current_user_company, data=request.data)
             if serializer.is_valid():
                 self.perform_create(serializer)
                 headers = self.get_success_headers(serializer.data)
                 return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# adminofficeViewSEt
 
 
 class EditOffice(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
@@ -63,3 +65,5 @@ class ViewOffice(viewsets.ReadOnlyModelViewSet):
             office_obj = Office.objects.filter(pk=current_user.office.id)
             return office_obj
 
+    def retrieve(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

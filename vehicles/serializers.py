@@ -1,22 +1,23 @@
 from rest_framework import serializers
 from . models import Vehicle
-from django.core.validators import MaxValueValidator
-from datetime import date
-from accounts.users.serializers import EmployeeSerializer
 from accounts.users.models import Account
 from offices.models import Office
 
 
 class VehicleSerializer(serializers.ModelSerializer):
-    year_of_manufacture = serializers.IntegerField(validators=[MaxValueValidator(int(date.today().year))])
-    #driver = serializers.StringRelatedField(read_only=True)
-    driver = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field='first_name')
-    office = serializers.SlugRelatedField(queryset=Office.objects.all(), slug_field='name')
+    driver = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field='first_name', required=False)
+    office = serializers.SlugRelatedField(queryset=Office.objects.all(), slug_field='name', required=False)
 
     def create(self, validated_data):
         company_id = self.context.get('company_id')
         vehicle = Vehicle.objects.create(**validated_data, company_id=company_id)
         return vehicle
+
+    def validate_driver_has_office(self):
+        driver = self.validated_data.get('driver')
+        print(driver)
+        if not driver.office:
+            raise serializers.ValidationError('Driver not assign to any office')
 
     def validate_driver_equal_office(self):
         driver = self.validated_data.get('driver')
@@ -26,4 +27,4 @@ class VehicleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vehicle
-        fields = ['license_plate', 'name', 'model', 'year_of_manufacture', 'driver', 'office']
+        fields = ['id', 'license_plate', 'name', 'model', 'year_of_manufacture', 'driver', 'office']
