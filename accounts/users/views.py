@@ -1,6 +1,6 @@
 from . models import Account
 from rest_framework import viewsets, permissions, generics, status
-from . serializers import UserSerializer, EmployeeSerializer, ProfileViewEditSerializer, PasswordCheckSerializer
+from . serializers import UserSerializer, EmployeeSerializer, ProfileViewEditSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from . services import EmployeeFilter
 from django.shortcuts import get_object_or_404
@@ -14,8 +14,6 @@ class CreateSuperUser(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
-        serializer = PasswordCheckSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

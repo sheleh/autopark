@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
 
-class OfficesView(viewsets.ModelViewSet):
+class AdminOfficesViewSet(viewsets.ModelViewSet):
     """Provide Create office / Get list of company offices"""
     serializer_class = OfficeSerializer
     #permission_classes = [permissions.IsAuthenticated]

@@ -5,20 +5,11 @@ from accounts.companies.models import Company
 from django.contrib.auth.password_validation import validate_password
 
 
-class PasswordCheckSerializer(serializers.Serializer):
-    password = serializers.CharField(required=True)
-    password_repeat = serializers.CharField(required=True)
-
-    def validate(self, data):
-        if data.get('password') != data.get('password_repeat'):
-            raise serializers.ValidationError('Those passwords dont match')
-        validate_password(password=data.get('password'))
-        return data
-
-
 class UserSerializer(serializers.ModelSerializer):
     """Company Administrator Serializer"""
     company = CompanySerializer()
+    password = serializers.CharField(required=True, write_only=True)
+    password_repeat = serializers.CharField(required=True, write_only=True)
 
     def create(self, validated_data):
         company_data = validated_data.pop('company')
@@ -28,10 +19,16 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    def validate(self, data):
+        if data.get('password') != data.pop('password_repeat'):
+            raise serializers.ValidationError('Those passwords dont match')
+        validate_password(password=data.get('password'))
+        return data
+
     class Meta:
         model = Account
         fields = ['url', 'email', 'first_name', 'last_name', 'is_staff',
-                  'password', 'company']
+                  'password', 'password_repeat', 'company']
         extra_kwargs = {
             'company': {'write_only': True}
         }

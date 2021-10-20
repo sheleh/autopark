@@ -2,7 +2,7 @@ API Information
 # Task 1
 - Registration of user and company -
 
-POST /users/
+POST api/users/
 example:
 {
     "email": "_", (required field)
@@ -23,33 +23,33 @@ Params: 'username', 'password'
 
 # Task 3
 getting list of employees
-GET /employees/ (authentication required)
+GET api/employees/ (authentication required)
 
 create new employee
-POST /employees/ 
+POST api/employees/ 
 params: 'email', 'first_name', 'last_name', 'password', 'office(optional)'
 
 filtering employees by first name
-GET /employees/?first_name=
+GET api/employees/?first_name=
 
 filtering employees by last name
-GET /employees/?last_name=
+GET api/employees/?last_name=
 
 filtering employees by email
-GET /employees/?email=
+GET api/employees/?email=
 
 # Task 4
 Worker view/update/delete
 
 View Worker information
-GET /employees/{id}/
+GET api/employees/{id}/
 
 Upgrade Worker information
-PATCH /company_edit/{id}/ (authentication required)
+PATCH api/employees/{id}/ (authentication required)
 Params: "first_name", "last_name", "office", "password"
 
 Delete Worker
-DELETE /company_edit/{id}/ (authentication required)
+DELETE /employees/{id}/ (authentication required)
 
 # Task 5
 getting company information 
