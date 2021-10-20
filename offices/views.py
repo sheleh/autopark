@@ -7,17 +7,21 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
 
-class CreateOfficeView(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin):
+class OfficesView(viewsets.ModelViewSet):
     """Provide Create office / Get list of company offices"""
     serializer_class = OfficeSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
     queryset = Office.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = OfficeFilter
 
-    #def get_queryset(self):
-    #    current_company = self.request.user.company.id
-    #    return Office.objects.filter(company=current_company)
+    def get_permissions(self):
+        """Set custom permission for each action"""
+        if self.action in ['create', 'update', 'partial_update', 'destroy', 'retrieve']:
+            self.permission_classes = [permissions.IsAdminUser, ]
+        elif self.action in ['list']:
+            self.permission_classes = [permissions.IsAuthenticated]
+        return super().get_permissions()
 
     def list(self, request, *args, **kwargs):
         """Provide view current company offices only"""
@@ -26,30 +30,31 @@ class CreateOfficeView(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        if not self.request.user.is_staff:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-        else:
-            current_user_company = self.request.user.company
-            serializer = OfficeSerializer(context=current_user_company, data=request.data)
-            if serializer.is_valid():
-                self.perform_create(serializer)
-                headers = self.get_success_headers(serializer.data)
-                return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        current_user_company = self.request.user.company
+        serializer = OfficeSerializer(context={'company': current_user_company}, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 # adminofficeViewSEt
 
+#has object permission
 
-class EditOffice(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
-                 mixins.UpdateModelMixin, mixins.DestroyModelMixin):
-    serializer_class = OfficeSerializer
-    permission_classes = [permissions.IsAdminUser]
+# Делаю MODELVIEWSET
 
-    def get_queryset(self):
-        """Provide access to current company offices only"""
-        current_company = self.request.user.company
-        queryset = Office.objects.filter(company=current_company.id)
-        return queryset
+
+#class EditOffice(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
+#                 mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+#    serializer_class = OfficeSerializer
+#    permission_classes = [permissions.IsAdminUser]
+#
+#    def get_queryset(self):
+#        """Provide access to current company offices only"""
+#        current_company = self.request.user.company
+#        queryset = Office.objects.filter(company=current_company.id)
+#        return queryset
 
 
 class ViewOffice(viewsets.ReadOnlyModelViewSet):
@@ -59,7 +64,7 @@ class ViewOffice(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         current_user = self.request.user
-        if current_user.office is None:
+        if not current_user.office:
             raise ValidationError({'Message': 'current user not assigned to any office'})
         else:
             office_obj = Office.objects.filter(pk=current_user.office.id)

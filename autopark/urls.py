@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from accounts.users.views import CreateSuperUser, EmployeeViewSet, ProfileEdit
-from accounts.companies.views import CompanyEditViewSet, CompanyView
-from offices.views import CreateOfficeView, EditOffice, ViewOffice
+from accounts.companies.views import CompanyEditView, CompanyView
+from offices.views import OfficesView, ViewOffice
 from vehicles.views import VehicleViewSet, ViewListVehicle
 from rest_framework.authtoken import views
 
@@ -26,17 +26,16 @@ router = routers.DefaultRouter()
 
 router.register(r'employees', EmployeeViewSet, basename='employees')
 router.register(r'company_view', CompanyView, basename='company_view')
-router.register(r'office', CreateOfficeView, basename='office')
-router.register(r'office_edit', EditOffice, basename='office_edit')
+router.register(r'offices', OfficesView, basename='offices')
 router.register('office_view', ViewOffice, basename='office_view')
 router.register('vehicle_create_edit', VehicleViewSet, basename='vehicle_create_edit')
 router.register(r'vehicles_view', ViewListVehicle, basename='vehicles_view')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
     path('create_company_admin/', CreateSuperUser.as_view(), name='create_company_admin'),
-    path('company_edit/', CompanyEditViewSet.as_view()),
+    path('company_edit/', CompanyEditView.as_view()),
     path('profile_edit/', ProfileEdit.as_view()),
     # Authorization
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

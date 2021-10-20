@@ -73,30 +73,30 @@ Params: 'email', 'first_name', 'last_name', 'password'
 - create office & view list of offices & filtering -
 
 create office 
-POST /office/ (authentication required)
+POST /offices/ (authentication required)
 params: 'name','address','country','city','region'
 
 get list of offices 
-GET /office/ (authentication required)
+GET /offices/ (authentication required)
 
 filtering offices by country
-GET /office/?country= (authentication required)
+GET /offices/?country= (authentication required)
 
 filtering offices by city
-GET /office/?city= (authentication required)
+GET /offices/?city= (authentication required)
 
 # Task 9
 - Office retrieve/update/delete -
 
 get office
-GET /office_edit/{office id}/ (authentication required)
+GET /offices/{office id}/ (authentication required)
 
 update office
-PUT or PATCH /office_edit/{office id}/
+PUT or PATCH /offices/{office id}/
 params: 'name', 'address', 'country', 'city', 'region' (authentication required)
 
 delete office
-DELETE /office_edit/{office id}/ (authentication required)
+DELETE /offices/{office id}/ (authentication required)
 
 # Task 10
 Implemented in Task 4 "Worker view/update/delete"
@@ -109,11 +109,15 @@ GET /office_view/
 Vehicle list/create
 
 Get list of company vehicle
-GET /vehicle_create_view_list/
+GET /vehicle_create_edit/
+
+Create a vehilce
+POST /vehicle_create_edit/
+params: 'license_plate', 'address', 'country', 'city', 'region' (authentication required)
 
 filtering vehicles by driver name
-GET /vehicle_create_view_list/?driver={driver name} (authentication required)
+GET /vehicle_create_edit/?driver={driver name} (authentication required)
 
 filtering offices by office name
-GET /vehicle_create_view_list/?office={office name} (authentication required)
+GET /vehicle_create_edit/?office={office name} (authentication required)
 ________________________________

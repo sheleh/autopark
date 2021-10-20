@@ -25,6 +25,11 @@ class VehicleSerializer(serializers.ModelSerializer):
         if driver.office.id != office.id:
             raise serializers.ValidationError('Driver and Car not in a same office')
 
+    def validate(self, attrs):
+        # attrs.get('office')
+
+        pass
+
     class Meta:
         model = Vehicle
         fields = ['id', 'license_plate', 'name', 'model', 'year_of_manufacture', 'driver', 'office']

@@ -3,11 +3,10 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from . serializers import CompanySerializer
 from rest_framework import generics
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 
-class CompanyEditViewSet(generics.UpdateAPIView):
+class CompanyEditView(generics.UpdateAPIView):
     """
     API endpoint that allows Company to be edited.
     """
@@ -26,9 +25,8 @@ class CompanyEditViewSet(generics.UpdateAPIView):
 
 class CompanyView(viewsets.ReadOnlyModelViewSet):
     """
-    View only Company details
+    View only Current user's company details
     """
-    # queryset = Company.objects.get(pk=1) WHY?  AttributeError: 'Company' object has no attribute 'model'
     serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticated]
 

@@ -1,5 +1,5 @@
 from . models import Account
-from rest_framework import viewsets, permissions, mixins, generics, status
+from rest_framework import viewsets, permissions, generics, status
 from . serializers import UserSerializer, EmployeeSerializer, ProfileViewEditSerializer, PasswordCheckSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from . services import EmployeeFilter
