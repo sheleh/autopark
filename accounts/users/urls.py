@@ -10,5 +10,4 @@ urlpatterns = [
     path('', include(router.urls)),
     path('profile_edit/', ProfileEdit.as_view()),
     path('create_company_admin/', CreateSuperUser.as_view(), name='create_company_admin'),
-
 ]

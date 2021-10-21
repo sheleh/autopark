@@ -10,6 +10,6 @@ urlpatterns = [
     path('api/', include('offices.urls')),
     path('api/', include('vehicles.urls')),
     # Authorization
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('token-auth/', views.obtain_auth_token)
+    #path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/auth/', views.obtain_auth_token)
 ]

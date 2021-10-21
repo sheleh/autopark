@@ -3,6 +3,7 @@ from . models import Company
 
 
 class CompanySerializer(serializers.ModelSerializer):
+    """Company Serializer"""
     class Meta:
         model = Company
         fields = ['id', 'name', 'address']
@@ -11,4 +12,3 @@ class CompanySerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.address = validated_data.get('address', instance.address)
         return super().update(instance, validated_data)
-

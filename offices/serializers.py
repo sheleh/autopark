@@ -3,7 +3,7 @@ from .models import Office
 
 
 class OfficeSerializer(serializers.ModelSerializer):
-
+    """Office serializer"""
     def create(self, validated_data):
         current_user_company = self.context['company']
         office = Office.objects.create(**validated_data, company=current_user_company)
@@ -12,4 +12,3 @@ class OfficeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Office
         fields = ['id', 'name', 'address', 'country', 'city', 'region']
-

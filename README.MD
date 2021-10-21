@@ -1,8 +1,11 @@
+Web admin page
+/admin/
+
 API Information
 # Task 1
 - Registration of user and company -
 
-POST api/users/
+POST api/create_company_admin/
 example:
 {
     "email": "_", (required field)
@@ -18,7 +21,7 @@ example:
 
 # Task 2
  - Login -
-POST /token-auth/
+POST api/auth/
 Params: 'username', 'password'
 
 # Task 3

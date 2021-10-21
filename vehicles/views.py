@@ -2,12 +2,12 @@ from .serializers import VehicleSerializer
 from .models import Vehicle
 from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
-from django.shortcuts import get_list_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from . services import VehicleFilter
 
 
 class AdminVehicleViewSet(viewsets.ModelViewSet):
+    """Vehicle Viewset List CRUD"""
     serializer_class = VehicleSerializer
     queryset = Vehicle.objects.all()
     permission_classes = [permissions.IsAdminUser]
@@ -41,4 +41,3 @@ class ViewListVehicle(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-

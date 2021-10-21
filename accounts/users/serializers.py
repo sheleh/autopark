@@ -6,7 +6,8 @@ from django.contrib.auth.password_validation import validate_password
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Company Administrator Serializer"""
+    """Company Administrator Serializer,
+     Creating Company Administrator and Company"""
     company = CompanySerializer()
     password = serializers.CharField(required=True, write_only=True)
     password_repeat = serializers.CharField(required=True, write_only=True)
@@ -35,6 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    """Creating Updating Employee"""
     def create(self, validated_data):
         owner_data = self.context.get('owner_data')
         office = self.validated_data.get('office')
@@ -69,7 +71,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class ProfileViewEditSerializer(serializers.ModelSerializer):
-
+    """Updating Current User(Employee) information"""
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email', instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
@@ -84,7 +86,3 @@ class ProfileViewEditSerializer(serializers.ModelSerializer):
         model = Account
         fields = ['email', 'first_name', 'last_name', 'password']
         extra_kwargs = {'password': {'write_only': True}}
-
-
-
-

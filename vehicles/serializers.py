@@ -5,6 +5,7 @@ from offices.models import Office
 
 
 class VehicleSerializer(serializers.ModelSerializer):
+    """Vehicle Serializer"""
     driver = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field='first_name', required=False)
     office = serializers.SlugRelatedField(queryset=Office.objects.all(), slug_field='name', required=False)
 
@@ -24,11 +25,6 @@ class VehicleSerializer(serializers.ModelSerializer):
         office = self.validated_data.get('office')
         if driver.office.id != office.id:
             raise serializers.ValidationError('Driver and Car not in a same office')
-
-    def validate(self, attrs):
-        # attrs.get('office')
-
-        pass
 
     class Meta:
         model = Vehicle

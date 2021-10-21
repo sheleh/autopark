@@ -9,8 +9,3 @@ router.register(r'vehicles_view', ViewListVehicle, basename='vehicles_view')
 urlpatterns = [
     path('', include(router.urls)),
 ]
-
-
-
-
-

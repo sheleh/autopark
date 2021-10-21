@@ -7,4 +7,3 @@ class OfficeFilter(filters.FilterSet):
     class Meta:
         model = Office
         fields = ['country', 'city']
-

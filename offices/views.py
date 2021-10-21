@@ -10,7 +10,6 @@ from rest_framework.exceptions import ValidationError
 class AdminOfficesViewSet(viewsets.ModelViewSet):
     """Provide Create office / Get list of company offices"""
     serializer_class = OfficeSerializer
-    #permission_classes = [permissions.IsAuthenticated]
     queryset = Office.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = OfficeFilter
@@ -36,25 +35,6 @@ class AdminOfficesViewSet(viewsets.ModelViewSet):
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-
-# adminofficeViewSEt
-
-#has object permission
-
-# Делаю MODELVIEWSET
-
-
-#class EditOffice(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
-#                 mixins.UpdateModelMixin, mixins.DestroyModelMixin):
-#    serializer_class = OfficeSerializer
-#    permission_classes = [permissions.IsAdminUser]
-#
-#    def get_queryset(self):
-#        """Provide access to current company offices only"""
-#        current_company = self.request.user.company
-#        queryset = Office.objects.filter(company=current_company.id)
-#        return queryset
 
 
 class ViewOffice(viewsets.ReadOnlyModelViewSet):

@@ -1,8 +1,5 @@
 import django_filters
-from django_filters import rest_framework as filters
 from .models import Vehicle
-from accounts.users.models import Account
-from offices.models import Office
 
 
 class VehicleFilter(django_filters.rest_framework.FilterSet):

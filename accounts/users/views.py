@@ -50,9 +50,3 @@ class ProfileEdit(generics.RetrieveUpdateAPIView):
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, pk=current_user.id)
         return obj
-
-
-
-
-
-
