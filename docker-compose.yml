@@ -3,7 +3,7 @@ services:
   db:
     image: spartakode/sqlite3
     volumes:
-      - ./database.db/db/db.db
+      - ./sqlite.db:/code/db.sqlite3
 
   web:
     build: .
