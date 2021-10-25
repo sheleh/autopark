@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from os import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d$jrm*6^&@$jqq!o&mmmz8(!5q*#mzq0**r+t1w_nri$@4(ms^'
+# SECRET_KEY = 'django-insecure-d$jrm*6^&@$jqq!o&mmmz8(!5q*#mzq0**r+t1w_nri$@4(ms^'
+SECRET_KEY = environ.get('SECRET_KEY', 'django-insecure-d$jrm*6^&@$jqq!o&mmmz8(!5q*#mzq0**r+t1w_nri$@4(ms^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = int(environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = []
-
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', 'localhost').split(' ')
 
 # Application definition
 
@@ -82,12 +85,12 @@ WSGI_APPLICATION = 'autopark.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'autopark',
-        'USER': 'dmitriy',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': environ.get('POSTGRES_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': environ.get('POSTGRES_DB', 'autopark'),
+        'USER': environ.get('POSTGRES_USER', 'dmitriy'),
+        'PASSWORD': environ.get('POSTGRES_PASSWORD', 'password'),
+        'HOST': environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': environ.get('POSTGRES_PORT', '5432')
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
     }

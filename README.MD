@@ -52,75 +52,75 @@ PATCH api/employees/{id}/ (authentication required)
 Params: "first_name", "last_name", "office", "password"
 
 Delete Worker
-DELETE /employees/{id}/ (authentication required)
+DELETE api/employees/{id}/ (authentication required)
 
 # Task 5
 getting company information 
-GET /company_view/ (authentication required)
+GET api/company_view/ (authentication required)
 
 # Task 6
 company edit
-PATCH /company_edit/ (authentication required)
+PATCH api/company_edit/ (authentication required)
 Params: 'name', 'address'
 
 # Task 7
 - profile edit -
 get profile information
-GET /profile_edit/ (authentication required)
+GET api/profile_edit/ (authentication required)
 
 update profile information
-PATCH /profile_edit/
+PATCH api/profile_edit/
 Params: 'email', 'first_name', 'last_name', 'password'
 
 # Task 8
 - create office & view list of offices & filtering -
 
 create office 
-POST /offices/ (authentication required)
+POST api/offices/ (authentication required)
 params: 'name','address','country','city','region'
 
 get list of offices 
-GET /offices/ (authentication required)
+GET api/offices/ (authentication required)
 
 filtering offices by country
-GET /offices/?country= (authentication required)
+GET api/offices/?country= (authentication required)
 
 filtering offices by city
-GET /offices/?city= (authentication required)
+GET api/offices/?city= (authentication required)
 
 # Task 9
 - Office retrieve/update/delete -
 
 get office
-GET /offices/{office id}/ (authentication required)
+GET api/offices/{office id}/ (authentication required)
 
 update office
-PUT or PATCH /offices/{office id}/
+PUT or PATCH api/offices/{office id}/
 params: 'name', 'address', 'country', 'city', 'region' (authentication required)
 
 delete office
-DELETE /offices/{office id}/ (authentication required)
+DELETE api/offices/{office id}/ (authentication required)
 
 # Task 10
 Implemented in Task 4 "Worker view/update/delete"
 
 # Task 11
 View my office
-GET /office_view/
+GET api/office_view/
 
 # Task 12
 Vehicle list/create
 
 Get list of company vehicle
-GET /vehicle_create_edit/
+GET api/vehicle_create_edit/
 
 Create a vehilce
-POST /vehicle_create_edit/
+POST api/vehicle_create_edit/
 params: 'license_plate', 'address', 'country', 'city', 'region' (authentication required)
 
 filtering vehicles by driver name
-GET /vehicle_create_edit/?driver={driver name} (authentication required)
+GET api/vehicle_create_edit/?driver={driver name} (authentication required)
 
 filtering offices by office name
-GET /vehicle_create_edit/?office={office name} (authentication required)
+GET api/vehicle_create_edit/?office={office name} (authentication required)
 ________________________________
